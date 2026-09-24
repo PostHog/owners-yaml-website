@@ -18,6 +18,8 @@ python3 -m http.server 8000
 Every command on the page runs against the owners-yaml version the CI example pins.
 When a release changes a command, an output, or a resolution rule, update the page and the pin together.
 
+A daily workflow (`bump-owners-yaml.yml`) opens a PR when PyPI has a newer owners-yaml. It only bumps the `owners-yaml==X.Y.Z` pins; check the text against the release notes before merging. Run it by hand with `gh workflow run bump-owners-yaml.yml`.
+
 ## Deploy
 
 GitHub Pages serves the `main` branch root; `.nojekyll` turns off the Jekyll build.
