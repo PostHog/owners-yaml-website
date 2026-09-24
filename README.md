@@ -20,12 +20,6 @@ When a release changes a command, an output, or a resolution rule, update the pa
 ## Deploy
 
 GitHub Pages serves the `main` branch root; `.nojekyll` turns off the Jekyll build.
-Until DNS exists, the page is at https://posthog.github.io/owners-yaml-website/.
-
-To move to the custom domain:
-
-1. Add the `owners-yaml.posthog.dev` CNAME to `posthog.github.io.` in the `posthog.dev` Route53 zone (posthog-cloud-infra).
-2. Set the custom domain in the repo's Pages settings. GitHub commits a `CNAME` file for it.
-3. Turn on "Enforce HTTPS" once the certificate is issued.
-
-The social tags in `index.html` already use absolute `https://owners-yaml.posthog.dev/` URLs, so link previews work only after step 1.
+`CNAME` sets the custom domain, `owners-yaml.posthog.dev`.
+DNS is a CNAME to `posthog.github.io.` in the `posthog.dev` Route53 zone, managed in posthog-cloud-infra.
+Turn on "Enforce HTTPS" in the Pages settings once GitHub issues the certificate.
