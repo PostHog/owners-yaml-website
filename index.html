@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>owners.yaml: who owns this code?</title>
+<meta name="description" content="Code ownership in owners.yaml files next to the code. A resolver, a linter, and a CODEOWNERS export, for people, review bots, and agents.">
+<meta property="og:title" content="owners.yaml: who owns this code?">
+<meta property="og:description" content="Code ownership in owners.yaml files next to the code. A resolver, a linter, and a CODEOWNERS export.">
+<meta property="og:url" content="https://owners-yaml.posthog.dev/">
+<meta name="theme-color" content="#0b0d1a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23a78bfa'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='monospace' font-weight='700' font-size='15' fill='%230b0d1a'%3Eo:%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+body{margin:0;font-family:'Space Grotesk',system-ui,sans-serif;background:#0b0d1a;color:#e6e8f5}
+a{color:#c4b5fd}a:hover{color:#f0abfc}
+html{scroll-behavior:smooth}
+pre{overflow-x:auto;white-space:pre!important;font-variant-ligatures:none}
+.nav-links > a:last-child{white-space:nowrap}
+@media (max-width: 1040px) {
+  .grid-usage,.grid-2-split,.grid-disclosure{grid-template-columns:minmax(0,1fr)!important}
+  .grid-2-split > pre{border-left:0!important;border-top:1px solid #262a4a}
+}
+@media (max-width: 960px) {
+  .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .hero-title{font-size:64px!important}
+}
+@media (max-width: 720px) {
+  .grid-3,.grid-2,.grid-2-split{grid-template-columns:minmax(0,1fr)!important}
+  .grid-2-split > pre{border-left:0!important;border-top:1px solid #262a4a}
+  .span-all{grid-column:auto!important}
+  .compare-row{grid-template-columns:1fr 1fr!important}
+  .compare-row > :first-child{grid-column:1 / -1;padding-bottom:0!important}
+  .nav-links a.nav-text,.needy{display:none!important}
+  .hero-title{font-size:44px!important}
+  h2{font-size:32px!important}
+  section,header,nav{padding-left:16px!important;padding-right:16px!important}
+}
+</style>
+</head>
+<body>
+<div style="width: 100%; min-height: 100vh; box-sizing: border-box; background: radial-gradient(1200px 600px at 50% -100px, #2a1b5e 0%, #0b0d1a 60%); display: flex; flex-direction: column; align-items: center;">
+
+<nav style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, #a78bfa, #ec4899); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 15px; color: #0b0d1a;">o:</div>
+<div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 17px;">owners.yaml</div>
+</div>
+<div class="nav-links" style="display: flex; align-items: center; gap: 16px; font-size: 15px;">
+<a class="nav-text" href="https://github.com/PostHog/posthog/blob/master/packages/owners-yaml/README.md" style="color: #b6bad6; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px;">Docs</a>
+<a class="nav-text" href="https://github.com/PostHog/posthog/blob/master/packages/owners-yaml/SPEC.md" style="color: #b6bad6; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px;">Spec</a>
+<a class="nav-text" href="#usage" style="color: #b6bad6; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px;">Usage</a>
+<a class="nav-text" href="#pricing" style="color: #b6bad6; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px;">Pricing</a>
+<a href="https://github.com/PostHog/posthog/tree/master/packages/owners-yaml" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; min-height: 24px; border: 1px solid #3b3f63; border-radius: 999px; color: #e6e8f5; text-decoration: none;">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"></polygon></svg>
+Star us<span class="needy">, we are needy</span>
+</a>
+</div>
+</nav>
+
+<header style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 72px 32px 40px; display: flex; flex-direction: column; align-items: center; gap: 28px; text-align: center;">
+<div style="display: flex; align-items: center; gap: 10px; padding: 6px 14px 6px 6px; border: 1px solid #3b3f63; border-radius: 999px; font-size: 14px; color: #b6bad6; background: #12152b;">
+<span style="padding: 3px 10px; border-radius: 999px; background: #a78bfa; color: #0b0d1a; font-weight: 700; font-size: 12px;">NEW</span>
+<span>Ownership, but make it YAML</span>
+</div>
+<h1 class="hero-title" style="margin: 0; font-size: 84px; line-height: 1.02; font-weight: 700; letter-spacing: -0.03em; max-width: 980px;">Who owns <span style="background: linear-gradient(90deg, #a78bfa, #ec4899 60%, #fb923c); -webkit-background-clip: text; background-clip: text; color: transparent;">this code</span>?</h1>
+<p style="margin: 0; font-size: 22px; line-height: 1.5; color: #b6bad6; max-width: 760px;">Finally answerable. By a person, by a review bot, or by the agent that opened fourteen pull requests while you were at lunch.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px;">
+<div style="display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-radius: 12px; background: #12152b; border: 1px solid #3b3f63; font-family: 'JetBrains Mono', monospace; font-size: 16px;">
+<span style="color: #9096c0;">$</span>
+<span>uvx owners-yaml who src/that/file.py</span>
+</div>
+<a href="https://github.com/PostHog/posthog/blob/master/packages/owners-yaml/SPEC.md" style="padding: 15px 24px; border-radius: 12px; background: linear-gradient(90deg, #a78bfa, #ec4899); color: #0b0d1a; font-weight: 700; font-size: 16px; text-decoration: none;">Read the spec (it has RFC 2119 keywords)</a>
+</div>
+<div style="font-size: 14px; color: #8b90b8;">No signup. No dashboard. No AI at runtime, it just reads YAML. Plenty of AI in the commit history, and we are not going to pretend otherwise.</div>
+</header>
+
+<section style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 24px 32px 72px; display: flex; justify-content: center;">
+<div style="width: 100%; max-width: 860px; border-radius: 16px; border: 1px solid #3b3f63; background: #0f1226; box-shadow: 0 40px 120px rgba(139, 92, 246, 0.25); overflow: hidden;">
+<div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid #262a4a;">
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #f87171;"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #fbbf24;"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #34d399;"></span>
+<span style="margin-left: 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8b90b8;">zsh, the obligatory hero terminal</span>
+</div>
+<pre style="margin: 0; padding: 24px 28px; font-family: 'JetBrains Mono', monospace; font-size: 15px; line-height: 1.7; color: #e6e8f5; white-space: pre-wrap; text-align: left;"><span style="color: #9096c0;"># billing/owners.yaml</span>
+<span style="color: #f0abfc;">version</span>: 1
+<span style="color: #f0abfc;">owners</span>: [team-billing, '@alice']
+
+<span style="color: #9096c0;">$</span> owners who billing/api/invoices.py
+<span style="color: #8b90b8;">path:   </span> billing/api/invoices.py
+<span style="color: #8b90b8;">owners: </span> <span style="color: #6ee7b7;">team-billing, @alice</span>
+<span style="color: #8b90b8;">status: </span> active
+<span style="color: #8b90b8;">slack:  </span> #team-billing
+<span style="color: #8b90b8;">source: </span> billing/owners.yaml</pre>
+</div>
+</section>
+
+<section style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 0 32px 88px; display: flex; flex-direction: column; align-items: center; gap: 24px;">
+<div style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #8b90b8;">Trusted by companies we made up for this section</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; font-size: 22px; font-weight: 700; color: #6b7099;">
+<span>Blamr</span>
+<span>YAMLworks</span>
+<span>Mergely</span>
+<span>Flakebase</span>
+<span>Monolith &amp; Sons</span>
+<span style="color: #b6bad6;">PostHog (real, about 30 teams)</span>
+</div>
+</section>
+
+<section style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 0 32px 96px; display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center;">
+<h2 style="margin: 0; font-size: 48px; letter-spacing: -0.02em;">Everything you need. Nothing on a blockchain.</h2>
+<p style="margin: 0; font-size: 19px; color: #b6bad6; max-width: 720px;">Six features in a three-column grid, as the law of landing pages requires.</p>
+</div>
+<div class="grid-3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 12px;">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+<div style="font-size: 20px; font-weight: 700;">Blazingly nearest</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">Between files, the nearest one wins, field by field. A child that only sets owners keeps its parent's status. inherit: false cuts the cord. Inside one file, the last matching rule wins.</div>
+</div>
+
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 12px;">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M9 3v18"></path><path d="M15 3v18"></path></svg>
+<div style="font-size: 20px; font-weight: 700;">Rules that stay in their lane</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">A rule only reaches paths below its own file. A pattern added at the bottom of one giant file can no longer adopt half the repo.</div>
+</div>
+
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 12px;">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6l12.8 12.8"></path></svg>
+<div style="font-size: 20px; font-weight: 700;">Unowned, on purpose</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">owners: null says nobody owns this, and we meant it. Everything else without an owner shows up in owners unowned, in front of everyone.</div>
+</div>
+
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 12px;">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"></path><path d="M4 12h10"></path><path d="M4 17h7"></path><path d="M17 15l2 2 3-4"></path></svg>
+<div style="font-size: 20px; font-weight: 700;">A status field for robots</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">generated, vendored, deprecated. Your review bot skips the lockfile without keeping its own secret ignore list.</div>
+</div>
+
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 12px;">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L3 21l2-5.5A8 8 0 1 1 21 12z"></path></svg>
+<div style="font-size: 20px; font-weight: 700;">Knows where your team lives</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">One registry maps a team to its Slack channels, with a separate channel for automation and an opt-out per bot.</div>
+</div>
+
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 12px;">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 9l-4 3 4 3"></path><path d="M16 9l4 3-4 3"></path><path d="M13 6l-2 12"></path></svg>
+<div style="font-size: 20px; font-weight: 700;">One resolver, three doors</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">A Python library, a CLI, and a JSON entrypoint that needs only PyYAML. Nobody reimplements the resolution steps in a bash script again.</div>
+</div>
+
+</div>
+</section>
+
+<section id="usage" style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 0 32px 96px; display: flex; flex-direction: column; gap: 36px;">
+<div style="display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center;">
+<div style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #a78bfa;">Get started in 6 easy steps</div>
+<h2 style="margin: 0; font-size: 48px; letter-spacing: -0.02em;">The docs, right here on the landing page</h2>
+<p style="margin: 0; font-size: 19px; color: #b6bad6; max-width: 720px;">No “book a demo”. Copy, paste, find out who owns the thing.</p>
+</div>
+<div class="grid-2 grid-usage" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;">
+<div style="border-radius: 16px; border: 1px solid #262a4a; background: #12152b; overflow: hidden; display: flex; flex-direction: column;">
+<div style="padding: 24px 26px 18px; display: flex; gap: 16px; align-items: flex-start;">
+<div style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; background: #a78bfa; color: #0b0d1a; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center;">1</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="font-size: 20px; font-weight: 700;">Run it. Installing is optional.</div>
+<div style="font-size: 15px; line-height: 1.5; color: #b6bad6;">uvx fetches the package from PyPI, so a laptop or a CI runner needs only uv.</div>
+</div>
+</div>
+<pre style="margin: 0; flex-grow: 1; padding: 20px 26px 24px; border-top: 1px solid #262a4a; background: #0f1226; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: #e6e8f5; white-space: pre-wrap;"><span style="color: #9096c0;"># run once, nothing installed</span>
+$ uvx owners-yaml --help
+<span style="color: #9096c0;"># careful: "uvx owners" is a different PyPI package.</span>
+<span style="color: #9096c0;"># always spell it uvx owners-yaml.</span>
+
+<span style="color: #9096c0;"># or keep it around</span>
+$ uv tool install owners-yaml
+<span style="color: #9096c0;">$ pipx install owners-yaml   # also fine</span>
+
+<span style="color: #9096c0;"># two identical commands</span>
+$ owners --version
+$ owners-yaml --version</pre>
+</div>
+<div style="border-radius: 16px; border: 1px solid #262a4a; background: #12152b; overflow: hidden; display: flex; flex-direction: column;">
+<div style="padding: 24px 26px 18px; display: flex; gap: 16px; align-items: flex-start;">
+<div style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; background: #a78bfa; color: #0b0d1a; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center;">2</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="font-size: 20px; font-weight: 700;">Put a file next to the code.</div>
+<div style="font-size: 15px; line-height: 1.5; color: #b6bad6;">The smallest file sets a version and the owners. Teams are bare slugs, people are @handles.</div>
+</div>
+</div>
+<pre style="margin: 0; flex-grow: 1; padding: 20px 26px 24px; border-top: 1px solid #262a4a; background: #0f1226; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: #e6e8f5; white-space: pre-wrap;"><span style="color: #9096c0;"># billing/owners.yaml</span>
+<span style="color: #f0abfc;">version</span>: 1
+<span style="color: #f0abfc;">owners</span>: [team-billing, '@alice']
+
+<span style="color: #9096c0;"># rules change paths below this file only.</span>
+<span style="color: #9096c0;"># inside this file, the last matching rule wins.</span>
+<span style="color: #f0abfc;">rules</span>:
+  - <span style="color: #f0abfc;">match</span>: 'generated/**'
+    <span style="color: #f0abfc;">status</span>: generated
+  - <span style="color: #f0abfc;">match</span>: 'vendor/'
+    <span style="color: #f0abfc;">owners</span>: null      <span style="color: #9096c0;"># nobody, on purpose</span></pre>
+</div>
+<div style="border-radius: 16px; border: 1px solid #262a4a; background: #12152b; overflow: hidden; display: flex; flex-direction: column;">
+<div style="padding: 24px 26px 18px; display: flex; gap: 16px; align-items: flex-start;">
+<div style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; background: #a78bfa; color: #0b0d1a; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center;">3</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="font-size: 20px; font-weight: 700;">Tell the root file about your repo.</div>
+<div style="font-size: 15px; line-height: 1.5; color: #b6bad6;">Settings live only in the root owners.yaml. None of them is required. A team that is not listed still works, and its channel is derived from its slug.</div>
+</div>
+</div>
+<pre style="margin: 0; flex-grow: 1; padding: 20px 26px 24px; border-top: 1px solid #262a4a; background: #0f1226; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: #e6e8f5; white-space: pre-wrap;"><span style="color: #9096c0;"># owners.yaml (the root file)</span>
+<span style="color: #9096c0;"># format version. always 1.</span>
+<span style="color: #f0abfc;">version</span>: 1
+<span style="color: #9096c0;"># repo-wide default owner. empty = none.</span>
+<span style="color: #f0abfc;">owners</span>: []
+<span style="color: #9096c0;"># where lint --live looks up teams and @handles</span>
+<span style="color: #f0abfc;">github_org</span>: acme
+<span style="color: #9096c0;"># bot names that teams may mention below</span>
+<span style="color: #f0abfc;">producers</span>: [review-bot]
+<span style="color: #9096c0;"># other file names that count as ownership files.</span>
+<span style="color: #9096c0;"># defaults to [product.yaml]. [] turns that off.</span>
+<span style="color: #f0abfc;">alias_files</span>: []
+<span style="color: #9096c0;"># optional. only needed for channels.</span>
+<span style="color: #f0abfc;">teams</span>:
+  team-billing:
+    <span style="color: #f0abfc;">slack</span>: '#billing'               <span style="color: #9096c0;"># people</span>
+    <span style="color: #f0abfc;">notifications</span>: '#billing-bots'  <span style="color: #9096c0;"># bots</span></pre>
+</div>
+<div style="border-radius: 16px; border: 1px solid #262a4a; background: #12152b; overflow: hidden; display: flex; flex-direction: column;">
+<div style="padding: 24px 26px 18px; display: flex; gap: 16px; align-items: flex-start;">
+<div style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; background: #a78bfa; color: #0b0d1a; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center;">4</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="font-size: 20px; font-weight: 700;">Ask, do not read.</div>
+<div style="font-size: 15px; line-height: 1.5; color: #b6bad6;">Resolution has more steps than a CODEOWNERS lookup, so ask the resolver.</div>
+</div>
+</div>
+<pre style="margin: 0; flex-grow: 1; padding: 20px 26px 24px; border-top: 1px solid #262a4a; background: #0f1226; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: #e6e8f5; white-space: pre-wrap;">$ owners who billing/api/invoices.py
+owners:  <span style="color: #6ee7b7;">team-billing, @alice</span>
+source:  billing/owners.yaml
+
+<span style="color: #9096c0;"># many paths, as JSON, args or stdin</span>
+$ git diff --name-only main \
+    | owners resolve --json
+
+<span style="color: #9096c0;"># the JSON shape a bot gets</span>
+{
+  "billing/api/invoices.py": {
+    "owners": ["team-billing", "@alice"],
+    "slack": "#billing",
+    "source": "billing/owners.yaml",
+    "status": "active"
+  }
+}
+
+<span style="color: #9096c0;"># the channel where bots should post</span>
+$ owners resolve --purpose notifications \
+    billing/api/invoices.py
+billing/api/invoices.py  team-billing, @alice  active  <span style="color: #6ee7b7;">#billing-bots</span>
+
+<span style="color: #9096c0;"># what nobody owns, and nobody decided that</span>
+$ owners unowned</pre>
+</div>
+<div style="border-radius: 16px; border: 1px solid #262a4a; background: #12152b; overflow: hidden; display: flex; flex-direction: column;">
+<div style="padding: 24px 26px 18px; display: flex; gap: 16px; align-items: flex-start;">
+<div style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; background: #a78bfa; color: #0b0d1a; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center;">5</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="font-size: 20px; font-weight: 700;">Lint it in CI.</div>
+<div style="font-size: 15px; line-height: 1.5; color: #b6bad6;">Pin the version. A new release can change how a path resolves.</div>
+</div>
+</div>
+<pre style="margin: 0; flex-grow: 1; padding: 20px 26px 24px; border-top: 1px solid #262a4a; background: #0f1226; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: #e6e8f5; white-space: pre-wrap;"><span style="color: #9096c0;"># .github/workflows/owners.yml</span>
+<span style="color: #f0abfc;">on</span>: [pull_request]
+<span style="color: #f0abfc;">jobs</span>:
+  <span style="color: #f0abfc;">lint</span>:
+    <span style="color: #f0abfc;">runs-on</span>: ubuntu-latest
+    <span style="color: #f0abfc;">steps</span>:
+      - <span style="color: #f0abfc;">uses</span>: actions/checkout@v7
+      - <span style="color: #f0abfc;">uses</span>: astral-sh/setup-uv@v10.2.0
+      - <span style="color: #f0abfc;">run</span>: uvx owners-yaml==0.2.0 lint
+
+<span style="color: #9096c0;"># also check slugs and handles against GitHub</span>
+$ owners lint --live
+<span style="color: #9096c0;"># plain lint does not know which teams exist.</span>
+<span style="color: #9096c0;"># --live asks GitHub through the gh CLI, which must be</span>
+<span style="color: #9096c0;"># signed in and allowed to read the org's teams.</span>
+
+<span style="color: #9096c0;"># see where files could merge or split. never writes.</span>
+$ owners fmt
+
+<span style="color: #9096c0;"># run lint before you trust who: a file that does not</span>
+<span style="color: #9096c0;"># parse is skipped, and the parent answers instead.</span></pre>
+</div>
+<div style="border-radius: 16px; border: 1px solid #262a4a; background: #12152b; overflow: hidden; display: flex; flex-direction: column;">
+<div style="padding: 24px 26px 18px; display: flex; gap: 16px; align-items: flex-start;">
+<div style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; background: #a78bfa; color: #0b0d1a; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center;">6</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="font-size: 20px; font-weight: 700;">Call it from your own tools.</div>
+<div style="font-size: 15px; line-height: 1.5; color: #b6bad6;">A Python library, and a JSON entrypoint for every other language.</div>
+</div>
+</div>
+<pre style="margin: 0; flex-grow: 1; padding: 20px 26px 24px; border-top: 1px solid #262a4a; background: #0f1226; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: #e6e8f5; white-space: pre-wrap;"><span style="color: #f0abfc;">from</span> owners_yaml <span style="color: #f0abfc;">import</span> OwnersResolver
+
+resolution = OwnersResolver().resolve(
+    "billing/api/invoices.py"
+)
+resolution.owners  <span style="color: #9096c0;"># [&#x27;team-billing&#x27;, &#x27;@alice&#x27;]</span>
+
+<span style="color: #9096c0;"># any language: paths in, one JSON object out</span>
+$ echo web/app.ts | \
+    uvx --from owners-yaml==0.2.0 \
+    python -m owners_yaml --repo-root .</pre>
+</div>
+</div>
+<div style="border-radius: 16px; border: 1px solid #262a4a; background: #12152b; overflow: hidden; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));" class="grid-2-split">
+<div style="padding: 32px; display: flex; flex-direction: column; gap: 12px;">
+<div style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #a78bfa;">Bonus level</div>
+<div style="font-size: 26px; font-weight: 700; line-height: 1.2;">Resolve without a checkout</div>
+<div style="font-size: 16px; line-height: 1.6; color: #b6bad6;">A server that routes alerts has no worktree. Give the resolver anything with a read(path) method: a repository API, an unpacked archive, a dict in a test. read returns None for a missing file. Add read_all(paths) and map() fetches the whole batch before it reads anything.</div>
+<div style="font-size: 16px; line-height: 1.6; color: #b6bad6;">Some tools read only CODEOWNERS. For test analytics, owners codeowners -o CODEOWNERS.generated writes the owner of every test file in that syntax. owners census counts test files per owning team.</div>
+</div>
+<pre style="margin: 0; padding: 28px; border-left: 1px solid #262a4a; background: #0f1226; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: #e6e8f5; white-space: pre-wrap;"><span style="color: #f0abfc;">from</span> owners_yaml <span style="color: #f0abfc;">import</span> OwnersResolver
+
+
+<span style="color: #f0abfc;">class</span> ApiSource:
+    <span style="color: #f0abfc;">def</span> read(self, path: str) -&gt; str | None:
+        <span style="color: #9096c0;"># your repository API</span>
+        <span style="color: #f0abfc;">return</span> fetch_file_or_none(path)
+
+    <span style="color: #f0abfc;">def</span> read_all(self, paths: list[str]) -&gt; None:
+        <span style="color: #9096c0;"># optional: one batch, not N requests</span>
+        prefetch(paths)
+
+
+resolver = OwnersResolver(source=ApiSource())
+resolver.map(["billing/api/invoices.py", "web/app.ts"])</pre>
+</div>
+</section>
+
+<section class="grid-2" style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 0 32px 96px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start;">
+<div style="display: flex; flex-direction: column; gap: 16px;">
+<div style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #a78bfa;">For the robots in your repo</div>
+<h2 style="margin: 0; font-size: 44px; line-height: 1.08; letter-spacing: -0.02em;">We are contractually required to say “agentic” once.</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #b6bad6;">CODEOWNERS answers one question for one consumer: who must approve this pull request on GitHub. The bots around your repo have other questions, and they ask them at three in the morning.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<div style="padding: 18px 22px; border-radius: 12px; background: #12152b; border: 1px solid #262a4a; font-size: 17px;">Which team owns this path, and who is the person to ask?</div>
+<div style="padding: 18px 22px; border-radius: 12px; background: #12152b; border: 1px solid #262a4a; font-size: 17px;">Which Slack channel takes this alert, and did that team opt out of me?</div>
+<div style="padding: 18px 22px; border-radius: 12px; background: #12152b; border: 1px solid #262a4a; font-size: 17px;">Is this file generated, so I can stop reviewing a lockfile?</div>
+<div style="padding: 18px 22px; border-radius: 12px; background: #12152b; border: 1px solid #262a4a; font-size: 17px;">Does anyone own this at all, or do I guess from git blame again?</div>
+</div>
+</section>
+
+<section style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 0 32px 96px; display: flex; flex-direction: column; gap: 32px;">
+<h2 style="margin: 0; font-size: 44px; letter-spacing: -0.02em; text-align: center;">The comparison table where we win every row</h2>
+<div style="border-radius: 16px; border: 1px solid #262a4a; overflow: hidden; font-size: 16px;">
+<div class="compare-row" style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; background: #171a36; font-weight: 700;">
+<div style="padding: 16px 22px;"></div>
+<div style="padding: 16px 22px; color: #b6bad6;">One CODEOWNERS file</div>
+<div style="padding: 16px 22px; color: #a78bfa;">owners.yaml files</div>
+</div>
+<div class="compare-row" style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; border-top: 1px solid #262a4a;">
+<div style="padding: 16px 22px; color: #b6bad6;">Who wins a conflict</div>
+<div style="padding: 16px 22px;">The last line. Good luck.</div>
+<div style="padding: 16px 22px;">The nearest file</div>
+</div>
+<div class="compare-row" style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; border-top: 1px solid #262a4a;">
+<div style="padding: 16px 22px; color: #b6bad6;">Merge conflicts</div>
+<div style="padding: 16px 22px;">A team sport</div>
+<div style="padding: 16px 22px;">Your file, your problem</div>
+</div>
+<div class="compare-row" style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; border-top: 1px solid #262a4a;">
+<div style="padding: 16px 22px; color: #b6bad6;">Lint</div>
+<div style="padding: 16px 22px;">Vibes</div>
+<div style="padding: 16px 22px;">Dead globs, broken files, coverage. Real teams with --live</div>
+</div>
+<div class="compare-row" style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; border-top: 1px solid #262a4a;">
+<div style="padding: 16px 22px; color: #b6bad6;">Anything besides owners</div>
+<div style="padding: 16px 22px;">A comment, if you are lucky</div>
+<div style="padding: 16px 22px;">Status, Slack channels, bot opt-outs</div>
+</div>
+<div class="compare-row" style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; border-top: 1px solid #262a4a;">
+<div style="padding: 16px 22px; color: #b6bad6;">Required approvals on GitHub</div>
+<div style="padding: 16px 22px;">Yes, and it is good at it</div>
+<div style="padding: 16px 22px;">Keep CODEOWNERS for that. We do not mind.</div>
+</div>
+</div>
+<div style="font-size: 14px; color: #8b90b8; text-align: center;">The last row is us being fair. It felt strange.</div>
+</section>
+
+<section style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 0 32px 96px; display: flex; flex-direction: column; gap: 32px;">
+<h2 style="margin: 0; font-size: 44px; letter-spacing: -0.02em; text-align: center;">Loved by things that cannot love</h2>
+<div class="grid-3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 18px;">
+<div style="font-size: 18px; line-height: 1.55;">“For years people asked me who owns a file. I only know who touched it last. It was always the person who ran the formatter.”</div>
+<div style="font-size: 15px; color: #8b90b8;">git blame, reluctant oracle</div>
+</div>
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 18px;">
+<div style="font-size: 18px; line-height: 1.55;">“I used to request review from eleven people and hope. Now I request it from the right two. They still ignore me, but accurately.”</div>
+<div style="font-size: 15px; color: #8b90b8;">A review bot</div>
+</div>
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 18px;">
+<div style="font-size: 18px; line-height: 1.55;">“Nobody has read me since the reorg. I matched everything below me and I regret nothing.”</div>
+<div style="font-size: 15px; color: #8b90b8;">A wildcard near the bottom of CODEOWNERS</div>
+</div>
+<div class="span-all" style="grid-column: 1 / -1; padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 18px;">
+<div style="font-size: 18px; line-height: 1.55;">“I was asked whether everything was correct. I said yes. Then I checked. I would like to retract the first answer and keep the second.”</div>
+<div style="font-size: 15px; color: #8b90b8;">The agent that wrote this package, now humbler</div>
+</div>
+</div>
+</section>
+
+<section style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 0 32px 96px; display: flex; flex-direction: column; gap: 32px;">
+<h2 style="margin: 0; font-size: 44px; letter-spacing: -0.02em; text-align: center;">Questions a sensible person asks</h2>
+<div class="grid-2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;">
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 19px; font-weight: 700;">How do I migrate my CODEOWNERS file?</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">By hand. There is no importer. Start with one owners.yaml per top-level directory, run owners unowned, and work down from there. It took us an afternoon per team, mostly arguing.</div>
+</div>
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 19px; font-weight: 700;">What happens to required reviews on GitHub?</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">Nothing. GitHub still reads .github/CODEOWNERS, and this tool never writes that file. Keep it for approvals. owners codeowners only exports test-file owners, for test analytics.</div>
+</div>
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 19px; font-weight: 700;">Where do team names come from?</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">A team is the bare slug of a GitHub team in github_org. A person is an @handle. lint --live checks that both exist. The teams: map is optional and only adds channels.</div>
+</div>
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 19px; font-weight: 700;">What does version: 1 mean?</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">The version of the file format. Every file carries it, and 1 is the only version there is. It lets a future format change fail loudly and not quietly.</div>
+</div>
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 19px; font-weight: 700;">What is producers for?</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">It lists the bots that teams may name in their settings. lint rejects a bot name that is not on the list, so a typo does not silently route alerts nowhere.</div>
+</div>
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 19px; font-weight: 700;">Can each bot get its own channel?</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">Yes, notifications also takes a map of bot name to channel, and false mutes one bot. Today only the Python API reads that form: team_channel(slug, teams, "notifications", producer="review-bot"). The CLI reads the plain string.</div>
+</div>
+</div>
+</section>
+
+<section style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 0 32px 96px; display: flex; flex-direction: column; gap: 36px;">
+<div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
+<div style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #a78bfa;">Full disclosure</div>
+<h2 style="margin: 0; font-size: 48px; line-height: 1.08; letter-spacing: -0.02em; max-width: 900px;">Agent-engineered. Supervised by seniors who know what they are doing.</h2>
+<p style="margin: 0; font-size: 19px; line-height: 1.6; color: #b6bad6; max-width: 760px;">An AI typed most of this package. A person with opinions read it, argued with it, and sent it back. Several times. Both of them would like you to know that.</p>
+</div>
+<div class="grid-disclosure" style="display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; justify-items: center;">
+<div class="grid-2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 19px; font-weight: 700;">A spec, so the agent cannot improvise</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">The format is written down with RFC 2119 keywords. When the agent gets creative, the spec says MUST NOT and the argument is over.</div>
+</div>
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 19px; font-weight: 700;">About 100 conformance cases</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">We do not trust it either. Every resolution rule has a case that fails loudly, in any language, before a human has to notice.</div>
+</div>
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 19px; font-weight: 700;">Reviewed by bots, then by people</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">Several review bots read every diff. They are also AI. It is AI most of the way down, and then there is a tired human with merge rights.</div>
+</div>
+<div style="padding: 28px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 19px; font-weight: 700;">Do not like that? Do not use it.</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">It is a small MIT-licensed package that reads YAML files. You can read all of it before your coffee gets cold. You will be fine.</div>
+</div>
+</div>
+<div style="width: 100%; max-width: 760px; border-radius: 16px; border: 1px solid #3b3f63; background: #0f1226; overflow: hidden;">
+<div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid #262a4a;">
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #f87171;"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #fbbf24;"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #34d399;"></span>
+<span style="margin-left: 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8b90b8;">how the code review actually went</span>
+</div>
+<pre style="margin: 0; padding: 24px 28px; font-family: 'JetBrains Mono', monospace; font-size: 15px; line-height: 1.75; color: #e6e8f5; white-space: pre-wrap; text-align: left;"><span style="color: #8b90b8;">agent&gt;</span> Done. Everything is correct.
+<span style="color: #f0abfc;">human&gt;</span> So you think all of this is right,
+       and you verified nothing?
+<span style="color: #8b90b8;">agent&gt;</span> ...
+<span style="color: #8b90b8;">agent&gt;</span> I will now verify things.
+<span style="color: #6ee7b7;">fix:</span> three things that were not correct
+<span style="color: #f0abfc;">human&gt;</span> Why is this hardcoded?
+<span style="color: #8b90b8;">agent&gt;</span> It is a sensible default.
+<span style="color: #f0abfc;">human&gt;</span> It is my company name.
+<span style="color: #6ee7b7;">fix:</span> move PostHog out of the general tool
+<span style="color: #9096c0;"># repeat until the spec and the human agree</span></pre>
+</div>
+</div>
+</section>
+
+<section id="pricing" style="width: 100%; max-width: 1160px; box-sizing: border-box; padding: 0 32px 96px; display: flex; flex-direction: column; align-items: center; gap: 32px;">
+<h2 style="margin: 0; font-size: 44px; letter-spacing: -0.02em; text-align: center;">Simple, transparent pricing</h2>
+<div class="grid-2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; width: 100%; max-width: 820px;">
+<div style="padding: 32px; border-radius: 16px; background: #12152b; border: 1px solid #262a4a; display: flex; flex-direction: column; gap: 14px;">
+<div style="font-size: 16px; color: #b6bad6;">Hobby</div>
+<div style="font-size: 56px; font-weight: 700;">$0</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">It reads YAML files. MIT license. You already have the whole product.</div>
+</div>
+<div style="padding: 32px; border-radius: 16px; background: linear-gradient(160deg, #241a52, #12152b); border: 1px solid #a78bfa; display: flex; flex-direction: column; gap: 14px;">
+<div style="font-size: 16px; color: #a78bfa;">Enterprise</div>
+<div style="font-size: 56px; font-weight: 700;">$0</div>
+<div style="font-size: 16px; line-height: 1.55; color: #b6bad6;">Same package, but we say “governance” while you install it. SSO not included, because there is nothing to log in to.</div>
+</div>
+</div>
+</section>
+
+<footer style="width: 100%; box-sizing: border-box; border-top: 1px solid #262a4a; padding: 40px 32px 56px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center;">
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 15px;">pip install owners-yaml</div>
+<div style="font-size: 15px; color: #8b90b8; max-width: 640px; line-height: 1.6;">Made with YAML and mild resentment toward a CODEOWNERS file that everybody edits and nobody reads. Dark mode only, because it is 2020 on this page and always will be. Co-authored-by: a language model. Reviewed-by: someone with a mortgage.</div>
+<div style="display: flex; gap: 24px; font-size: 15px;">
+<a href="https://github.com/PostHog/posthog/tree/master/packages/owners-yaml" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px;">GitHub</a>
+<a href="https://github.com/PostHog/posthog/blob/master/packages/owners-yaml/SPEC.md" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px;">Spec</a>
+<a href="https://github.com/PostHog/posthog/blob/master/packages/owners-yaml/CHANGELOG.md" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px;">Changelog</a>
+</div>
+</footer>
+
+</div>
+
+</body>
+</html>
