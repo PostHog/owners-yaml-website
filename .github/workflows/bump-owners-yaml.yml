@@ -6,6 +6,7 @@ on:
     workflow_dispatch:
 
 permissions:
+    actions: write
     contents: write
     pull-requests: write
 
@@ -22,5 +23,11 @@ jobs:
 
             - name: Open a PR when PyPI has a newer owners-yaml
               run: .github/scripts/bump-owners-yaml.sh
+              env:
+                  GH_TOKEN: ${{ github.token }}
+
+            # GitHub disables a scheduled workflow after 60 days without commits; enabling it again restarts that clock.
+            - name: Keep the schedule alive
+              run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/bump-owners-yaml.yml/enable"
               env:
                   GH_TOKEN: ${{ github.token }}
