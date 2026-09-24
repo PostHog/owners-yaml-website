@@ -8,6 +8,7 @@ This repo holds only the page.
 ## Edit
 
 `index.html` is the whole site: one static file, no build step.
+`fonts/` holds Open Runde, PostHog's typeface, under the SIL Open Font License (`fonts/OFL.txt`). Code uses Source Code Pro from Google Fonts.
 Preview it with any static server:
 
 ```sh
