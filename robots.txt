@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://owners-yaml.posthog.dev/sitemap.xml
