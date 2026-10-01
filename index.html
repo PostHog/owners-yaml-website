@@ -25,6 +25,7 @@
 <script>
 try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
 </script>
+<script src="/analytics.js" defer></script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -727,6 +728,9 @@ resolver.map(["billing/api/invoices.py", "web/app.ts"])</pre>
     var button = document.createElement('button');
     button.type = 'button'; button.className = className; button.innerHTML = COPY_ICON;
     button.setAttribute('aria-label', 'Copy to clipboard'); button.title = 'Copy';
+    // PostHog autocapture adds data-ph-capture-attribute-* to the click event, so web analytics can tell copied commands apart.
+    button.setAttribute('data-attr', 'copy-command');
+    button.setAttribute('data-ph-capture-attribute-command', copyText(source).split('\n')[0].slice(0, 100));
     button.addEventListener('click', function () {
       writeClipboard(copyText(source)).then(function () {
         button.innerHTML = DONE_ICON; button.setAttribute('data-copied', '');
